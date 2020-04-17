@@ -1,13 +1,16 @@
 /*!
-    \file  systick.c
-    \brief the systick configuration file
+    \file  systick.h
+    \brief the header file of systick
+
     \version 2019-6-5, V1.0.0, firmware for GD32VF103
 */
 
 /*
     Copyright (c) 2019, GigaDevice Semiconductor Inc.
+
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
+
     1. Redistributions of source code must retain the above copyright notice, this 
        list of conditions and the following disclaimer.
     2. Redistributions in binary form must reproduce the above copyright notice, 
@@ -16,6 +19,7 @@ are permitted provided that the following conditions are met:
     3. Neither the name of the copyright holder nor the names of its contributors 
        may be used to endorse or promote products derived from this software without 
        specific prior written permission.
+
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
@@ -28,28 +32,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-#include "gd32vf103.h"
-#include "systick.h"
+#ifndef SYS_TICK_H
+#define SYS_TICK_H
 
-/*!
-    \brief      delay a time in milliseconds
-    \param[in]  count: count in milliseconds
-    \param[out] none
-    \retval     none
-*/
-void delay_1ms(uint32_t count)
-{
-  uint64_t start_mtime, delta_mtime;
+#include <stdint.h>
 
-  // Don't start measuruing until we see an mtime tick
-  uint64_t tmp = get_timer_value();
-  do
-  {
-    start_mtime = get_timer_value();
-  } while (start_mtime == tmp);
+void delay_1ms(uint32_t count);
 
-  do
-  {
-    delta_mtime = get_timer_value() - start_mtime;
-  } while (delta_mtime < (SystemCoreClock / 4000.0 * count));
-}
+#endif /* SYS_TICK_H */
